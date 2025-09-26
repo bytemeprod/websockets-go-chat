@@ -1,8 +1,15 @@
 package main
 
-import "net/http"
+import (
+	"github.com/bytemeprod/websockets-go-chat/internal/config"
+	"github.com/labstack/echo"
+)
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir("./frontend")))
-	http.ListenAndServe(":8080", nil)
+	config := config.MustLoadConfig()
+	e := echo.New()
+	//e.Logger.SetLevel(log.OFF)
+	e.Static("/", "./frontend")
+	//e.GET("/ws", handlers.ServeWs)
+	e.Start(config.Host + ":" + config.Port)
 }
