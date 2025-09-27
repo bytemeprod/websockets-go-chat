@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/bytemeprod/websockets-go-chat/internal/client"
-	"github.com/bytemeprod/websockets-go-chat/internal/types"
+	"github.com/bytemeprod/websockets-go-chat/internal/manager"
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo"
 )
@@ -14,14 +14,13 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-func NewHandler(manager types.Manager) echo.HandlerFunc {
+func NewHandler(manager *manager.Manager) echo.HandlerFunc {
 	return func(с echo.Context) error {
 		conn, err := upgrader.Upgrade(с.Response(), с.Request(), nil)
 		if err != nil {
 			log.Printf("Failed to upgrade connection: %v", err)
 			return err
 		}
-		defer conn.Close()
 
 		client := client.NewClient(manager, conn)
 		manager.AddClient(client)
