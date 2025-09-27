@@ -3,17 +3,17 @@ package client
 import (
 	"fmt"
 
-	"github.com/bytemeprod/websockets-go-chat/internal/types"
+	"github.com/bytemeprod/websockets-go-chat/internal/manager"
 	"github.com/gorilla/websocket"
 )
 
 type Client struct {
-	manager types.Manager
+	manager *manager.Manager
 	conn    *websocket.Conn
 	egress  chan []byte
 }
 
-func NewClient(manager types.Manager, conn *websocket.Conn) *Client {
+func NewClient(manager *manager.Manager, conn *websocket.Conn) *Client {
 	return &Client{
 		manager: manager,
 		conn:    conn,
@@ -27,12 +27,20 @@ func (c *Client) ReadConnection() {
 		c.manager.RemoveClient(c)
 	}()
 	for {
-		_, _, err := c.conn.ReadMessage() // just read message now
+		_, msg, err := c.conn.ReadMessage() // just read message now
 		if err != nil {
 			fmt.Printf("Error reading message: %v", err)
 			break
 		}
+		fmt.Printf("Message: %s\n", string(msg))
+		for cl := range c.manager.Clients {
+			cl.AddToEgress(msg)
+		}
 	}
+}
+
+func (c *Client) AddToEgress(message []byte) {
+	c.egress <- message
 }
 
 func (c *Client) WriteConnection() {
@@ -48,6 +56,8 @@ func (c *Client) WriteConnection() {
 			if err := c.conn.WriteMessage(websocket.TextMessage, message); err != nil {
 				fmt.Printf("Error writing message: %v", err)
 			}
+		default:
+			// ...
 		}
 	}
 }
