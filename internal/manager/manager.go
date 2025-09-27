@@ -7,7 +7,7 @@ import (
 )
 
 type Manager struct {
-	clients map[types.Client]struct{}
+	Clients map[types.Client]struct{}
 
 	sync.Mutex
 }
@@ -16,12 +16,12 @@ func (m *Manager) AddClient(client types.Client) {
 	m.Mutex.Lock()
 	defer m.Mutex.Unlock()
 
-	m.clients[client] = struct{}{}
+	m.Clients[client] = struct{}{}
 }
 
 func (m *Manager) RemoveClient(client types.Client) {
 	m.Mutex.Lock()
 	defer m.Mutex.Unlock()
 
-	delete(m.clients, client)
+	delete(m.Clients, client)
 }
