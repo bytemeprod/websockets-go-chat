@@ -12,6 +12,12 @@ type Manager struct {
 	sync.Mutex
 }
 
+func NewManager() *Manager {
+	return &Manager{
+		Clients: make(map[types.Client]struct{}),
+	}
+}
+
 func (m *Manager) AddClient(client types.Client) {
 	m.Mutex.Lock()
 	defer m.Mutex.Unlock()
