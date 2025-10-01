@@ -3,3 +3,6 @@ port: 8080
 read_timeout: 5s
 write_timeout: 10s
 context_timeout: 10s
+redis_config:
+  addr: localhost:6379
+  password: ""
