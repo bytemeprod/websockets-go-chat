@@ -15,6 +15,12 @@ type Config struct {
 	ReadTimeout    time.Duration `yaml:"read_timeout"`
 	WriteTimeout   time.Duration `yaml:"write_timeout"`
 	ContextTimeout time.Duration `yaml:"context_timeout"`
+	RedisConfig    `yaml:"redis_config"`
+}
+
+type RedisConfig struct {
+	Addr     string `yaml:"addr"`
+	Password string `yaml:"password"`
 }
 
 func MustLoadConfig() Config {
