@@ -4,6 +4,7 @@ type Client interface {
 	ReadConnection()
 	WriteConnection()
 	AddToEgress(message []byte)
+	GetUsername() string
 }
 
 type Manager interface {
