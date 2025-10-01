@@ -1,0 +1,123 @@
+    body {
+        background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        margin: 0;
+        color: #c9d1d9;
+    }
+
+    .container {
+        background: #0f141a;
+        border-radius: 25px;
+        padding: 32px 40px;
+        box-shadow: 0 8px 24px rgba(30, 60, 110, 0.7), 0 1.5px 8px 1.5px rgba(0, 40, 80, 0.5);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 370px;
+        border: 1px solid #30363d;
+    }
+
+    h1 {
+        color: #58a6ff;
+        font-size: 2.4rem;
+        margin-bottom: 22px;
+        margin-top: 0;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-shadow: 0 0 6px #58a6ffaa;
+    }
+
+    .messages_area {
+        width: 100%;
+        max-width: 440px;
+        height: 300px;
+        overflow-y: auto;
+        background: #161b22;
+        border-radius: 16px;
+        padding: 20px 22px;
+        box-shadow:
+            0 4px 20px rgba(24, 80, 160, 0.6),
+            inset 4px 4px 14px rgba(24, 80, 160, 0.4),
+            inset -4px -4px 8px rgba(0, 0, 0, 0.5);
+        font-size: 1.05rem;
+        user-select: text;
+        margin-bottom: 18px;
+        border: 1.5px solid #2384e8;
+        color: #dde6f0;
+        scrollbar-width: thin;
+        scrollbar-color: #2384e8 #0f141a;
+    }
+
+    .messages_area::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .messages_area::-webkit-scrollbar-track {
+        background: #0f141a;
+    }
+
+    .messages_area::-webkit-scrollbar-thumb {
+        background-color: #2384e8;
+        border-radius: 10px;
+        border: 2px solid #0f141a;
+    }
+
+    form#send_message_form {
+        display: flex;
+        width: 100%;
+        gap: 12px;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    #message[type="text"] {
+        flex: 1;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1.3px solid #2384e8;
+        font-size: 1.04rem;
+        background: #0f141a;
+        color: #dde6f0;
+        transition: border 0.2s, background 0.2s;
+    }
+
+    #message[type="text"]::placeholder {
+        color: #6284b7;
+    }
+
+    #message[type="text"]:focus {
+        border-color: #58a6ff;
+        outline: none;
+        background: #161b22;
+    }
+
+    input[type="submit"] {
+        padding: 10px 22px;
+        background: linear-gradient(90deg, #2384e8 60%, #1a5fcc 100%);
+        border: none;
+        border-radius: 10px;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1.02rem;
+        cursor: pointer;
+        transition: background 0.22s;
+        box-shadow: 0 0 8px #2384e8aa;
+    }
+
+    input[type="submit"]:hover {
+        background: linear-gradient(90deg, #1a5fcc 20%, #2384e8 100%);
+        box-shadow: 0 0 12px #58a6ffcc;
+    }
+
+.my-message {
+  background-color: rgba(35, 132, 232, 0.3);
+  border-radius: 8px;
+  padding: 4px 4px;
+  margin-bottom: 6px;
+  color: #58a6ff;
+  font-weight: 600;
+}

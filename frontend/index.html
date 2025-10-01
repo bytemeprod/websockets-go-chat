@@ -1,20 +1,26 @@
 <!doctype html>
-
-<html>
-    <header>
-        <title>Websocket-Go-Chat</title>
-        <link rel="stylesheet" href="./css/style.css" ></link>
-    </header>
-
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Authentication</title>
+        <link rel="stylesheet" href="./css/index.css"></link>
+    </head>
     <body>
-        <h1>GoChat</h1>
-        <div id="messages_area" class="messages_area"></div>
-        <br>
-        <form id="send_message_form">
-            <input id="message" type="text" name="message"><br><br>
-            <input type="submit" value="Send message">
-        </form>
-    </body>
+        <div class="container">
+            <div id="login-form">
+                <h2>You need to identify yourself here</h2>
+                <label for="login-username">Username</label>
+                <input
+                    type="text"
+                    id="login-username"
+                    placeholder="Your username"
+                    required
+                />
+                <button id="login-btn">Log in</button>
+            </div>
+        </div>
 
-    <script src="./scripts/script.js"></script>
+        <script src="./scripts/index.js"></script>
+    </body>
 </html>
