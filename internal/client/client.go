@@ -2,9 +2,16 @@ package client
 
 import (
 	"fmt"
+	"log"
+	"time"
 
 	"github.com/bytemeprod/websockets-go-chat/internal/manager"
 	"github.com/gorilla/websocket"
+)
+
+var (
+	pongWait     = 10 * time.Second
+	pingInterval = (pongWait * 9) / 10
 )
 
 type Client struct {
@@ -30,6 +37,14 @@ func (c *Client) ReadConnection() {
 		close(c.egress)
 		c.manager.RemoveClient(c)
 	}()
+
+	c.conn.SetPongHandler(c.pongHalder)
+
+	if err := c.conn.SetReadDeadline(time.Now().Add(pongWait)); err != nil {
+		fmt.Printf("Failed to set read deadline: %v\n", err)
+		return
+	}
+
 	for {
 		_, msg, err := c.conn.ReadMessage() // just read message now
 		if err != nil {
@@ -45,14 +60,35 @@ func (c *Client) ReadConnection() {
 	}
 }
 
+func (c *Client) pongHalder(pongMsg string) error {
+	log.Println("Pong message received")
+	return c.conn.SetReadDeadline(time.Now().Add(pongWait))
+}
+
 func (c *Client) AddToEgress(message []byte) {
 	c.egress <- message
 }
 
 func (c *Client) WriteConnection() {
-	for message := range c.egress {
-		if err := c.conn.WriteMessage(websocket.TextMessage, message); err != nil {
-			fmt.Printf("Error writing message: %v", err)
+	ticker := time.NewTicker(pingInterval)
+	defer ticker.Stop()
+	for {
+		select {
+		case message, ok := <-c.egress:
+			if !ok {
+				if err := c.conn.WriteMessage(websocket.CloseMessage, message); err != nil {
+					fmt.Printf("Connection closed: %v", err)
+				}
+				return
+			}
+			if err := c.conn.WriteMessage(websocket.TextMessage, message); err != nil {
+				fmt.Printf("Error writing message: %v", err)
+			}
+		case <-ticker.C:
+			log.Println("Ping message send")
+			if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
+				fmt.Printf("Error writing ping message: %v", err)
+			}
 		}
 	}
 }
