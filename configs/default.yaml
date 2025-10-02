@@ -6,3 +6,4 @@ context_timeout: 10s
 redis_config:
   addr: localhost:6379
   password: ""
+secret_key: "secret-as-fuck"

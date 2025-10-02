@@ -28,7 +28,7 @@ type Response struct {
 	Message string `json:"message"`
 }
 
-func NewHandler(manager *manager.Manager) echo.HandlerFunc {
+func NewHandler(manager *manager.Manager, secret_key string) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		token := c.QueryParam("token")
 
@@ -38,7 +38,7 @@ func NewHandler(manager *manager.Manager) echo.HandlerFunc {
 			return err
 		}
 
-		claims, err := tokens.ValidateJWT([]byte("secret-as-fuck"), token) // move key to config
+		claims, err := tokens.ValidateJWT([]byte(secret_key), token)
 		if err != nil {
 			return sendClosingResponse(conn, "error", ErrInvalidToken.Error())
 		}

@@ -15,6 +15,7 @@ type Config struct {
 	ReadTimeout    time.Duration `yaml:"read_timeout"`
 	WriteTimeout   time.Duration `yaml:"write_timeout"`
 	ContextTimeout time.Duration `yaml:"context_timeout"`
+	SecretKey      string        `yaml:"secret_key"`
 	RedisConfig    `yaml:"redis_config"`
 }
 

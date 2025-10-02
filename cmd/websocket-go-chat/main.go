@@ -25,10 +25,10 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.CORS())
 
-	e.GET("/ws", socket.NewHandler(manager))
+	e.GET("/ws", socket.NewHandler(manager, config.SecretKey))
 
 	e.Static("/", "./frontend")
-	e.POST("/login", login.NewHandler(ctx, storage))
+	e.POST("/login", login.NewHandler(ctx, storage, config.SecretKey))
 
 	e.Start(config.Host + ":" + config.Port)
 }

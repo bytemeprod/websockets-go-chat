@@ -22,7 +22,7 @@ type Request struct {
 	Username string `json:"username"`
 }
 
-func NewHandler(ctx context.Context, storage *redisstore.RedisClient) echo.HandlerFunc {
+func NewHandler(ctx context.Context, storage *redisstore.RedisClient, secret_key string) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var request Request
 		if err := json.NewDecoder(c.Request().Body).Decode(&request); err != nil {
@@ -44,7 +44,7 @@ func NewHandler(ctx context.Context, storage *redisstore.RedisClient) echo.Handl
 			})
 		}
 
-		token, err := tokens.GenerateJWT([]byte("secret-as-fuck"), request.Username) // todo: move key to config
+		token, err := tokens.GenerateJWT([]byte(secret_key), request.Username)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]string{
 				"error": ErrInternalError,
