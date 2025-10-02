@@ -10,13 +10,12 @@ import (
 const defaultConfigPath = "./configs/default.yaml"
 
 type Config struct {
-	Host           string        `yaml:"host"`
-	Port           string        `yaml:"port"`
-	ReadTimeout    time.Duration `yaml:"read_timeout"`
-	WriteTimeout   time.Duration `yaml:"write_timeout"`
-	ContextTimeout time.Duration `yaml:"context_timeout"`
-	SecretKey      string        `yaml:"secret_key"`
-	RedisConfig    `yaml:"redis_config"`
+	Host         string        `yaml:"host"`
+	Port         string        `yaml:"port"`
+	ReadTimeout  time.Duration `yaml:"read_timeout"`
+	WriteTimeout time.Duration `yaml:"write_timeout"`
+	SecretKey    string        `yaml:"secret_key"`
+	RedisConfig  `yaml:"redis_config"`
 }
 
 type RedisConfig struct {

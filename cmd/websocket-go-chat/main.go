@@ -23,12 +23,14 @@ func main() {
 	ctx := context.Background()
 
 	e := echo.New()
+	e.Server.ReadTimeout = config.ReadTimeout
+	e.Server.WriteTimeout = config.WriteTimeout
 	e.Use(middleware.CORS())
 
-	e.GET("/ws", socket.NewHandler(manager, config.SecretKey))
-
 	e.Static("/", "./frontend")
-	e.POST("/login", login.NewHandler(ctx, storage, config.SecretKey))
+
+	e.GET("/ws", socket.NewHandler(manager, config))
+	e.POST("/login", login.NewHandler(ctx, storage, config))
 
 	e.Start(config.Host + ":" + config.Port)
 }

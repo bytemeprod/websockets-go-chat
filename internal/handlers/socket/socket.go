@@ -7,6 +7,7 @@ import (
 	"log"
 
 	"github.com/bytemeprod/websockets-go-chat/internal/client"
+	"github.com/bytemeprod/websockets-go-chat/internal/config"
 	"github.com/bytemeprod/websockets-go-chat/internal/manager"
 	"github.com/bytemeprod/websockets-go-chat/internal/tokens"
 	"github.com/gorilla/websocket"
@@ -28,7 +29,7 @@ type Response struct {
 	Message string `json:"message"`
 }
 
-func NewHandler(manager *manager.Manager, secret_key string) echo.HandlerFunc {
+func NewHandler(manager *manager.Manager, config config.Config) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		token := c.QueryParam("token")
 
@@ -38,7 +39,7 @@ func NewHandler(manager *manager.Manager, secret_key string) echo.HandlerFunc {
 			return err
 		}
 
-		claims, err := tokens.ValidateJWT([]byte(secret_key), token)
+		claims, err := tokens.ValidateJWT([]byte(config.SecretKey), token)
 		if err != nil {
 			return sendClosingResponse(conn, "error", ErrInvalidToken.Error())
 		}

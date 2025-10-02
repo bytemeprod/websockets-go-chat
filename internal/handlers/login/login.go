@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/bytemeprod/websockets-go-chat/internal/config"
 	"github.com/bytemeprod/websockets-go-chat/internal/redisstore"
 	"github.com/bytemeprod/websockets-go-chat/internal/tokens"
 	"github.com/labstack/echo"
@@ -22,7 +23,7 @@ type Request struct {
 	Username string `json:"username"`
 }
 
-func NewHandler(ctx context.Context, storage *redisstore.RedisClient, secret_key string) echo.HandlerFunc {
+func NewHandler(ctx context.Context, storage *redisstore.RedisClient, config config.Config) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var request Request
 		if err := json.NewDecoder(c.Request().Body).Decode(&request); err != nil {
@@ -44,7 +45,7 @@ func NewHandler(ctx context.Context, storage *redisstore.RedisClient, secret_key
 			})
 		}
 
-		token, err := tokens.GenerateJWT([]byte(secret_key), request.Username)
+		token, err := tokens.GenerateJWT([]byte(config.SecretKey), request.Username)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]string{
 				"error": ErrInternalError,
